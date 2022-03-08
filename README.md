@@ -1,6 +1,7 @@
 # coding_examples
+Disclaimer: "I am not a software developer and I never learn how to code besides self-learn. I am sure there are many beginners mistakes and the code is truly unreadable at some point, but it does the job. There is room for improvement :)"
 Here there are some examples of my coding skills.
-Some of them are computationally inefficient because I was at the very start of my coding path.
+Some of them are truly computationally inefficient because I was at the very start of my coding path.
 There are also some pictures from my time at the university journals, mostly plots used in articles and instagram posts.
 - Script_TripAdvisor_Scrape: I scraped all the restaurants in a number of selected cities in tripadvisor Italy, this script would return around 60k e-mails. It has been very useful to get a view of restaurant and conduct a small research on restaurant tastes for an extra curricular project. (pandas, beautiful soup, etc.)
 - framework_insta_plot: I used this script as a baseline for all the instagram posts for the University Journal. (matplotlib, pandas)
