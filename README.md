@@ -1,5 +1,6 @@
 # coding_examples
 Disclaimer: "I am not a software developer and I never learn how to code besides self-learn. I am sure there are many beginners mistakes and the code is truly unreadable at some point, but it does the job. There is room for improvement :)"
+
 Here there are some examples of my coding skills.
 Some of them are truly computationally inefficient because I was at the very start of my coding path.
 There are also some pictures from my time at the university journals, mostly plots used in articles and instagram posts.
