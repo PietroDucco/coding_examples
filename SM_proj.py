@@ -30,6 +30,13 @@ from GPT_SCRIPT import more_together, label_data, label_text_dict, label_hall_2
 #implement example and platform
 openai.api_key=#input your code
 
+
+#every prompt should be written with the same structure as the one below.
+#First give some background information about what does it need to label ("usage of different platform").
+#Then supply a specific coding scheme as the one below.
+#Don't forget to add the part with the steps! It is very important
+
+
 prompt_no_plat='''You will be supplied with a list of responses. The responses refer to the usage of different platforms, the platform will be indicated in parentheses at the end of the response. Please classify responses based on the coding scheme below. Please note that each open-ended response can fall into multiple categories or even none. 
 
 FOMO: Respondent mentions fear of missing out, feeling out of the loop, their wish to stay connected, or justifies usage through others' usage. Examples: "I feel compelled to keep `in touch' with what I perceive as being the culturally relevant `thing' at the moment. It breeds a sense of FOMO when you don’t use it." (TikTok); "Everyone else uses it so I feel that I will be missing out if I don’t." (Instagram); "I still use navigation maps because it is what everyone uses ..." (Maps).
@@ -55,6 +62,10 @@ Let's think step by step. In order to complete this task you should follow these
     
     iv. check that the results are 10 as the answers I asked you to label. 
     v. return the results in the format requested at iii'''
+
+#categories should be written as in the example below. 
+#In earlier version of GPT as 3 or 3.5 the categories mapping was of fundamental important due to the lower precision of the labeling when giving names (e.g. "Productivity" instead of "Productivity/Convenience" as indicated in the prompt above)
+#By using GPT4 it is not the case anymore, however it is better to be prudent as you can see from the line n75. Mapping all the possible "mislabels" into the same.
 
 categories_no_plat={
     'FOMO':'FOMO',
@@ -111,7 +122,11 @@ Let's think step by step. In order to complete this task you should follow these
     
     iv. check that the results are 10 as the answers I asked you to label. 
     v. return the results in the format requested at iii'''
-    
+
+
+#This is a specific example of a mapping where categories are in two steps. With the coding above we want to identify many different ones (as many as the keys in the dictionary below)
+#  however we will group them in 5 macro-categories useful for the analysis later through the mapping
+
 categories_feel={
 'FOMO':'FOMO',
 
