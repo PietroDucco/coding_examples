@@ -197,32 +197,3 @@ def label_hall(df,col,categories):
     
     return res
 
-
-
-
-
-def create_comparison(df,df2,cat):
-    passive_col=['Ease_1', 'Cost_1', 'Risk_1', 'Passivebenefits_1','Longterm_1', 'Know_1', 'Time_1', 'Profinvestorsfail_1', 'Emo_1','Exp_1', 'Difficult_1', 'Other_1']
-    attive_col=['Moment_1', 'Other_1', 'ExpertRel_1', 'ValStocks_1','GrowthStocks_1', 'MacroTrends_1', 'NotPublic_1', 'ImpactInv_1','SocialRel_1', 'difficult_1', 'LongTerm_1', 'DivStocks_1', 'ConInv_1']
-    edge_col=['Rules_1', 'Other_1', 'Longterm_1', 'Pat_1', 'Info_1','Know_1', 'Emo_1', 'Niche_1', 'NoPubl_1', 'Noedge_1', 'FinEduc_1', 'Exp_1']
-    cols=[]
-    if cat=='edge':
-        cols=edge_col
-    elif cat=='passive':
-        cols=passive_col
-    elif cat=='attive':
-        cols=attive_col
-    
-    diff=df.loc[:,cols] - df2.loc[:,cols]
-    print(f'hall df:{df[df.wrong>0].shape[0]/df.shape[0]}')
-    print(f'hall df2:{df2[df2.wrong>0].shape[0]/df2.shape[0]}')
-    print(f'hall df1 in df2 perc:{df2[df.wrong>0].wrong.mean()}')
-    print(f'hall df2 in df1 perc:{df[df2.wrong>0].wrong.mean()}')
-    print(f'mean distance by response in terms of cat: {diff.T.abs().sum().mean()}')
-    print(f'mean distance by response (in terms of categories) on prompt 2 hall. {diff[df2.wrong>0].T.abs().sum().mean()}')
-    print(f'mean distance by response (in terms of categories) on prompt 1 hall.{diff[df.wrong>0].T.abs().sum().mean()}')
-    print(f'hall prompt 1: {df[df.wrong>0].shape[0]}')
-    print(f'hall prompt 2: {df2[df2.wrong>0].shape[0]}')
-    print(f'size:{df.shape[0]}')
-
-
