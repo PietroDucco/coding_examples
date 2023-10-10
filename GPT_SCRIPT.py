@@ -200,7 +200,7 @@ def label_hall(df,col,categories):
 
 
 
-
+#it prints comparison in terms of hallucination
 def create_comparison(df,df2,cols):
     
     
