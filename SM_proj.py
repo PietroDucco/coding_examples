@@ -29,11 +29,7 @@ from GPT_SCRIPT import more_together, label_data, label_text_dict, label_hall_2
 ###########################
 
 #implement example and platform
-
-openai.api_key = "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"
-
-roth_key='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'
-openai.api_key=roth_key
+openai.api_key=#
 
 prompt_no_plat='''You will be supplied with a list of responses. The responses refer to the usage of different platforms, the platform will be indicated in parentheses at the end of the response. Please classify responses based on the coding scheme below. Please note that each open-ended response can fall into multiple categories or even none. 
 
