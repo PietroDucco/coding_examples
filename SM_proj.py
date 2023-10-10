@@ -18,7 +18,6 @@ import numpy as np
 
 import sys
 
-sys.path.append('C:\\Users\\ducco\\OneDrive\\Desktop\\work\\Roth\\GPTauto')
 
 from GPT_SCRIPT import more_together, label_data, label_text_dict, label_hall_2
 
@@ -29,7 +28,7 @@ from GPT_SCRIPT import more_together, label_data, label_text_dict, label_hall_2
 ###########################
 
 #implement example and platform
-openai.api_key=#
+openai.api_key=#input your code
 
 prompt_no_plat='''You will be supplied with a list of responses. The responses refer to the usage of different platforms, the platform will be indicated in parentheses at the end of the response. Please classify responses based on the coding scheme below. Please note that each open-ended response can fall into multiple categories or even none. 
 
@@ -153,7 +152,7 @@ path_tiktok= Path.home()/'Downloads/categorised_tiktok.xlsx' #upload your file
 df_tiktok=pd.read_excel(path_tiktok)
 
 df_tiktok=df_tiktok[(df_tiktok['1 Bot']==0) & (df_tiktok['2 Bot']==0)].loc[:,['responseid','why_no_sm','feel_only_one']]
-#df_tiktok.columns=['responseid','text_1','text_2']
+
 df_tiktok['cat_plat']=''
 df_tiktok['cat_feel']=''
 df_tiktok['platform']='tiktok'
@@ -162,16 +161,12 @@ df_tiktok['why_no_sm_2']= df_tiktok['why_no_sm'] + '. (' + df_tiktok['platform']
 
 df_tiktok['feel_only_one_2']= df_tiktok['feel_only_one'] + '. (' + df_tiktok['platform'] +')'
 
-#[(df_tiktok['1 Bot']==0) & (df_tiktok['2 Bot']==0)]
-#passive
 
 path_ig= Path.home()/'Downloads/categorised_ig_maps.xlsx' #upload your file
 
 df_ig=pd.read_excel(path_ig)
 df_ig['2 Bot']=df_ig['2 Bot'].fillna(0)
 df_ig=df_ig[(df_ig['1 Bot']==0) & (df_ig['2 Bot']==0)].loc[:,['responseid','platform','why_no_platform','feel_only_one']]
-
-#[(df_ig['1 Bot']==0) & (df_ig['2 Bot']==0)]
 
 df_ig['cat_plat']=''
 df_ig['cat_feel']=''
@@ -246,14 +241,6 @@ df_ig_v2_lab= df_ig_v2_lab.drop(['why_no_platform','cat_plat'],axis=1)
 
 
 df_ig_final=df_ig_v2_lab.merge(df_ig_plat_lab,'outer',on='responseid')
-
-
-#bot
-#df_ig_bot=pd.read_excel(path_ig)
-#df_ig_bot=df_ig_bot[(df_ig_bot['1 Bot']==1) | (df_ig_bot['2 Bot']==1)]
-
-#df_tt_bot=pd.read_excel(path_tiktok)
-#df_tt_bot=df_tt_bot[(df_tt_bot['1 Bot']==1) | (df_tt_bot['2 Bot']==1)]
 
 
 #SAVE
