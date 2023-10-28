@@ -9,7 +9,7 @@ import os
 import winsound
 import numpy as np
 
-url=url to access orbis from Bocconi
+url=#url to access orbis from Bocconi
 
 bocconi={'nome':username, 'psw':psw} #censored
 orbis={'nome':username, 'psw':psw} #censored
@@ -20,23 +20,23 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 def LoginBocconi(driver,bocconi):
-    xpath_id='//*[@id="extpatid"]'
-    xpath_psw='//*[@id="extpatpw"]'
+    xpath_id='//*[@id="extpatid"]' #individuates the id_input_cell
+    xpath_psw='//*[@id="extpatpw"]' #individuates the password_input_cell
     
     driver.find_element_by_xpath(xpath_id).send_keys(bocconi['nome'])
     driver.find_element_by_xpath(xpath_psw).send_keys(bocconi['psw'])
     
-    #clicca pulsante
+    #button click
     driver.find_element_by_xpath('//*[@id="fm1"]/div[6]/a/div').click()
     
     print('loggato')
-#go to the next page, click on th ebutton
+#go to the next page, click on the button
 pass
 
 #def login VdB
 def LoginOrbis(driver,orbis):
     
-    #while driver.title!=
+    
     assert driver.title =='Orbis Intellectual Property | | BvD'
     
     driver.find_element_by_xpath('//*[@id="user"]').send_keys(orbis['nome'])
@@ -44,11 +44,11 @@ def LoginOrbis(driver,orbis):
     
     driver.find_element_by_xpath('//*[@id="loginPage"]/div[2]/div[3]/button').click()
     
-    #wait till assert not true
+    
     
     driver.find_element_by_xpath('//*[@id="LoginForm"]/div/div[2]/input').click()
     
-    print('loggato in Orbis')
+    print('logged in')
     
     
 def wait_find(driver,xpath,time=10,click=False,xpath2=''):
@@ -74,7 +74,7 @@ def Company_id_Search(driver,nome):
     
     if 'No results' not in el.text: 
     # no result xpath '//*[@id="main-content"]/div/div[2]/div[2]/ul/li/div[1]/span[3]/text()'
-    #wait for the 'X' button to be loaded, then it is possible to continue (deleting the search or saving it)
+    #wait for the 'X' button to be loaded, then continue (deleting the search or saving it)
     
         wait_find(driver,'//*[@id="main-content"]/div/div[2]/div[2]/ul/li/div[2]/div[1]/span[1]/a[1]',100,True,'//*[@id="main-content"]/div/div[2]/div[2]/ul/li/div[1]/span[1]/span')
     #loading, wait for the button to be blue
@@ -141,8 +141,8 @@ def Company_save_search(driver,nome):
     
 def Clean_Search(driver,level=1):
     '''
-    driver is the browser obj, level indicate the first search term, usually the filter
-    or the second, usually the search term, in the cycle is used as the 2.
+    driver is the browser obj, level indicate the first search term.
+    This method cleans the filter used to query the databank
     '''
     if level==1:
         driver.find_element_by_xpath('//*[@id="search-summary"]/div/table/tbody/tr/td[2]/img').click()
@@ -156,7 +156,7 @@ def Clean_Search(driver,level=1):
         wait_find(driver, '//*[@id="search-summary"]/div/table/tbody/tr[2]/td[2]/img', 10,True)
         time.sleep(2)
         wait_find(driver,'/html/body/section[3]/div[6]/div[3]/a[2]',30,True)
-    print('cancellato')
+    print('cancelled')
     
 
     
@@ -172,6 +172,7 @@ def Logout_orbis(driver):
     -------
     None.
 
+    Can be used to log out of the platform
     '''
     
     #click on the top right side of the page
@@ -186,41 +187,40 @@ def close(driver):
     
     
     
-def company_cycle_ID(driver,nome, nome2,level):
+def company_cycle_ID(driver,name, name_2,level):
     '''
-    nome, is the search term es: "IBM"
-    nome2: is the name we add in the export file
+    name, is the search term es: "IBM"
+    name_2: is the name we add in the export file
     level indicate the one that we need to delete
     '''
     if level==1:
         Filter_world(driver)
         time.sleep(5)
     time.sleep(1)
-    a=Company_id_Search(driver, nome)
+    a=Company_id_Search(driver, name)
     time.sleep(5)
     
     if a:
         
         
-        b=Company_save_search(driver, nome2)
+        b=Company_save_search(driver, name_2)
         time.sleep(5)
-        Clean_Search(driver,2) #troppo rischioso pulire entrambi 2 volte
-    #Clean_Search(driver)
+        Clean_Search(driver,2) 
         time.sleep(3)
         if b:
-            print(f'{nome}, fatto')
+            print(f'{name}, done')
             return True
         else:
-            print(f'{nome}, VUOTO, NO IN NA')
+            print(f'{name}, EMPY, NOT IN NA')
             return False
     else:
-        print(f'{nome}, vuoto')
+        print(f'{name}, empty')
         return False
 
 
-def transform_csv_excel(starting_url, end_url): #controlla se NAME2 ha sempre lo spazio alla fine, toglilo
+def transform_csv_excel(starting_url, end_url): 
     '''
-    it is a first filtering of the document, create the search term columns "NAME2"
+    A first filtering of the document, it creates the search term columns "NAME2"
     Save starting_url (csv file) as an excel file in end_url
     excel file because they are easier to be modified, usually some search term in NAME2 need to be corrected
     '''
