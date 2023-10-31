@@ -54,12 +54,16 @@ def more_together(series,index,amount,prompt):
             v. return the results in the format requested at iii
     
     '''
+    
+#METHOD STARTS HERE
+	
+    #check if the input is text, if not, exclude items that are not text
     di=series.iloc[index:index+amount].to_dict()
     text=''
     for i in di.keys():
         t=di[i]
         if type(t) is float:
-            continue
+            t="EMPTY"            #labels items to exclude
         t=t.replace("\n"," ")
         
         text=text + f'{i}. {t}.'+'\n\n'
@@ -68,17 +72,19 @@ def more_together(series,index,amount,prompt):
     chat=openai.ChatCompletion.create(
   model="gpt-4",
   messages=[
-        {"role": "system", "content": prompt},
-        {"role": "user", "content": text}
+        {"role": "system", "content": prompt},  #give the prompt as an instruction
+        {"role": "user", "content": text}       #give the text as the object to be analyzed
         ],
   temperature=0
   )
 
-    return chat['choices'][0]['message'].content
+    return chat['choices'][0]['message'].content #returns answer
     
 
 
     
+#routine method to label an entire dataset based on more_together.
+
 def label_data(dataset,text_col,cat_col,prompt,amount=10,t=0):
     '''
     
@@ -109,7 +115,8 @@ def label_data(dataset,text_col,cat_col,prompt,amount=10,t=0):
         
         a=more_together(df[text_col],i,amount,prompt).split('\n')
         a=list(filter(lambda x: x!='',a))
-        while len(a)!=amount:
+        
+	while len(a)!=amount:    #if the output returned by the script is different than expected, it will be relabled again.
             if i+amount>=df.shape[0] and len(a)==df.iloc[i:].shape[0]:
                 df.iloc[i:i+amount,df.columns.get_loc(cat_col)]=a
                 break
@@ -122,25 +129,29 @@ def label_data(dataset,text_col,cat_col,prompt,amount=10,t=0):
 
 
 
-'''
- Parameters
- ----------
- df : Input dataset.
- col : Desired column that you want to treat (only ONE).
- dictionary : Formatted in the same way as categories_active given a prompt at prompt_active
- ordinal : could also be left 1, useful if you have multiple coding schemes with names that overlap
-
- Returns
- -------
- res : dataset with the new columns encoded in a specific way given the dictionary.
- 
- IT IS IMPORTANT TO CHECK THAT THE DICTIONARY KEYS DON'T LEAD TO A MULTIPLE AND OVERLAPPING LABELING, example 'Info':'Info','NO Public-info':'NOPUBL'
- since the method is case insensitive, is using x.lower(), all the output from GPT containing "NoPublic-Info" will also lead to the "Info" label besides the "NOPUBL", cases could checked by hand later.
-
-'''
 
 def label_text_dict(df,col,dictionary,ordinal):
-   
+
+    '''
+
+ 	Parameters
+	 ----------
+	 df : Input dataset.
+ 	col : Desired column that you want to treat (only ONE).
+ 	dictionary : Formatted in the same way as categories_active given a prompt at prompt_active
+	 ordinal : could also be left 1, useful if you have multiple coding schemes with names that overlap
+
+	 Returns
+ 	-------
+ 	res : dataset with the new columns encoded in a specific way given the dictionary.
+ 
+	 
+
+    '''  
+
+#IT IS IMPORTANT TO CHECK THAT THE DICTIONARY KEYS DON'T LEAD TO A MULTIPLE AND OVERLAPPING LABELING, example 'Info':'Info','NO Public-info':'NOPUBL'
+#since the method is case insensitive, is using x.lower(), all the output from GPT containing "NoPublic-Info" will also lead to the "Info" label besides the "NOPUBL", cases could checked by hand later.
+
     res=df.copy()
     cols=list(set(dictionary.values()))
     
@@ -196,4 +207,7 @@ def label_hall(df,col,categories):
     print(f'ratio of affected rows: {res[res.wrong>0].shape[0]/res.shape[0]}')
     
     return res
+
+
+
 
